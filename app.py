@@ -7,7 +7,7 @@ A heuristic-based interview scoring engine with explainable AI feedback.
 No ML libraries, no external APIs — just clean Python logic.
 """
 
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory, redirect
 import os
 import re
 import math
@@ -1085,8 +1085,8 @@ def _generate_next_steps(avg, answers_data):
 
 @app.route("/")
 def serve_index():
-    """Serve the main HTML page."""
-    return send_from_directory("static", "index.html")
+    """Redirect to the main HTML page."""
+    return redirect("/static/index.html")
 
 
 @app.route("/api/roles", methods=["GET"])
