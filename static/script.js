@@ -957,7 +957,10 @@ async function newInterview() {
 // VAULTOO INTEGRATION — Zero-Trust Access Layer
 // ═══════════════════════════════════════════════
 
-const VAULTOO_API = "http://localhost:3001";
+const VAULTOO_API =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3001"
+    : "https://vaultoo.vercel.app";
 let vaultooSession = null;
 let vaultooTimerInterval = null;
 let vaultooStatusInterval = null;
@@ -1087,10 +1090,14 @@ async function verifyVaultooOTP() {
 
       logVaultooActivity("SESSION_STARTED", "/", "OTP verified manually");
     } else {
-      showVaultooError(data.error || "Invalid OTP. Please try again.");
+      showVaultooError(
+        data.message || data.error || "Invalid OTP. Please try again.",
+      );
     }
   } catch (err) {
-    showVaultooError("Cannot connect to Vaultoo. Is it running on port 3001?");
+    showVaultooError(
+      "Cannot connect to Vaultoo. Please check the server is running.",
+    );
     console.error("Vaultoo OTP verify error:", err);
   } finally {
     verifyBtn.disabled = false;
